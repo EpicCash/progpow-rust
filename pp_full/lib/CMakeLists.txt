@@ -26,7 +26,10 @@ include_directories(/usr/local/cuda/include /opt/cuda/include)
 #    URL "https://github.com/cpp-pm/hunter/archive/v0.25.8.tar.gz"
 #    SHA1 "26c79d587883ec910bce168e25f6ac4595f97033"
 #)
-set(CMAKE_TOOLCHAIN_FILE "C:\\Users\\johannes\\source\\repos\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake")
+# Set the toolchain file via -DCMAKE_TOOLCHAIN_FILE=... or environment variable.
+# Example: cmake -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+# Uncomment and set the following line if you want to hardcode a default (not recommended):
+# set(CMAKE_TOOLCHAIN_FILE "/absolute/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake")
 project(progpow)
 set(PROJECT_VERSION 0.15.0.dev0)
 
