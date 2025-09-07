@@ -8,7 +8,7 @@ add_custom_command(
 	-DBIN2H_SOURCE_FILE="${CMAKE_CURRENT_SOURCE_DIR}/CLMiner_kernel.cl"
 	-DBIN2H_VARIABLE_NAME=CLMiner_kernel
 	-DBIN2H_HEADER_FILE="${CMAKE_CURRENT_BINARY_DIR}/CLMiner_kernel.h"
-	-P "${CMAKE_CURRENT_SOURCE_DIR}/../cmake/bin2h.cmake"
+	-P "${CMAKE_CURRENT_SOURCE_DIR}/../bin2h.cmake"
 	COMMENT "Generating OpenCL Kernel Byte Array"
 	DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/CLMiner_kernel.cl
 )
@@ -19,12 +19,7 @@ set(SOURCES
 	${CMAKE_CURRENT_BINARY_DIR}/CLMiner_kernel.h
 )
 
-if(MSVC)
-	hunter_add_package(OpenCL)
-	find_package(OpenCL CONFIG REQUIRED)
-else()
-	find_package(OpenCL REQUIRED)
-endif()
+find_package(OpenCL)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(..)

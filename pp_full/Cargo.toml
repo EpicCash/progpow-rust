@@ -9,8 +9,8 @@ libc = "0.2.51"
 bigint = "4.4.1"
 
 [build-dependencies]
-bindgen = "0.37.0"
-cmake = "0.1.40"
+bindgen = "0.71.1"
+cmake = "0.1.52"
 filetime = "0.2"
 
 [features]

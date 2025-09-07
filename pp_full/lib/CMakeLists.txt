@@ -1,45 +1,64 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 3.19)
 
 include_directories(/usr/local/cuda/include /opt/cuda/include)
 
-include(cmake/cable/bootstrap.cmake)
 
-include(CableBuildInfo)
-include(CableBuildType)
-include(CableToolchains)
-include(HunterGate)
 
-if(NOT APPLE)
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fpic -fPIC" CACHE INTERNAL "")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpic -fPIC" CACHE INTERNAL "")
-  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-endif()
+# include(cmake/cable/bootstrap.cmake)
 
-include(defaults/HunterCacheServers)
+#include(CableBuildInfo)
+#include(CableBuildType)
+#include(CableToolchains)
+#include(HunterGate)
 
-cable_configure_toolchain(DEFAULT cxx11)
+#if(NOT APPLE)
+#  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fpic -fPIC" CACHE INTERNAL "")
+#  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpic -fPIC" CACHE INTERNAL "")
+#  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+#endif()
 
-set(HUNTER_CONFIGURATION_TYPES Release)
-HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/v0.23.214.tar.gz"
-    SHA1 "e14bc153a7f16d6a5eeec845fb0283c8fad8c358"
-	LOCAL
-)
+#include(defaults/HunterCacheServers)
 
+# cable_configure_toolchain(DEFAULT cxx11)
+
+#set(HUNTER_CONFIGURATION_TYPES Release)
+#HunterGate(
+#    URL "https://github.com/cpp-pm/hunter/archive/v0.25.8.tar.gz"
+#    SHA1 "26c79d587883ec910bce168e25f6ac4595f97033"
+#)
+# Set the toolchain file via -DCMAKE_TOOLCHAIN_FILE=... or environment variable.
+# Example: cmake -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+# Uncomment and set the following line if you want to hardcode a default (not recommended):
+# set(CMAKE_TOOLCHAIN_FILE "/absolute/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake")
 project(progpow)
 set(PROJECT_VERSION 0.15.0.dev0)
 
-cable_set_build_type(DEFAULT Release CONFIGURATION_TYPES Release RelWithDebInfo Debug)
+#set(BOOST_ROOT "./3rdparty/boost_1_87_0/boost" )
+#set(Boost_INCLUDE_DIR "3rdparty/boost_1_87_0/boost")
+#set(Boost_NO_SYSTEM_PATHS on CACHE BOOL "Do not search system for Boost" )
+
+#set(Boost_USE_STATIC_LIBS OFF) 
+#set(Boost_USE_MULTITHREADED ON)  
+#set(Boost_USE_STATIC_RUNTIME OFF) 
+
+
+#set(Boost_NO_BOOST_CMAKE YES)
+
+
+
+
+
+#cable_set_build_type(DEFAULT Release CONFIGURATION_TYPES Release RelWithDebInfo Debug)
 
 # link_directories interprets relative paths with respect to CMAKE_CURRENT_SOURCE_DIR
-cmake_policy(SET CMP0015 NEW)
+#cmake_policy(SET CMP0015 NEW)
 
 # let cmake autolink dependencies on windows
 # it's specified globally, cause qt libraries requires that on windows and they are also found globally
-cmake_policy(SET CMP0020 NEW)
+#cmake_policy(SET CMP0020 NEW)
 
 # 3.1 and above
-cmake_policy(SET CMP0054 NEW)
+cmake_policy(SET CMP0167 NEW)
 
 ######################################################################################################
 
@@ -58,17 +77,23 @@ function(configureProject)
 	endif()
 endfunction()
 
-hunter_add_package(Boost COMPONENTS system)
-find_package(Boost CONFIG REQUIRED COMPONENTS system)
+#hunter_add_package(Boost COMPONENTS system)
+#
+#find_package(boost_system CONFIG REQUIRED)
+#hunter_add_package(jsoncpp)
+#find_package(jsoncpp CONFIG REQUIRED)
 
-hunter_add_package(jsoncpp)
-find_package(jsoncpp CONFIG REQUIRED)
+#hunter_add_package(libjson-rpc-cpp)
+#find_package(libjson-rpc-cpp CONFIG REQUIRED)
 
-hunter_add_package(libjson-rpc-cpp)
-find_package(libjson-rpc-cpp CONFIG REQUIRED)
+#hunter_add_package(CppNetlibUri)
+#find_package(skyr-url CONFIG REQUIRED)
 
-hunter_add_package(CppNetlibUri)
-find_package(CppNetlibUri CONFIG REQUIRED)
+#if(Boost_FOUND)
+#    include_directories(${Boost_INCLUDE_DIRS}) 
+  #  add_executable(progname file1.cxx file2.cxx) 
+   # target_link_libraries(progname ${Boost_LIBRARIES})
+#endif()
 
 configureProject()
 
@@ -81,8 +106,8 @@ message("-- ETHASHCUDA       Build CUDA components                    ${ETHASHCU
 message("------------------------------------------------------------------------")
 message("")
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-include(EthCompilerSettings)
+
+include(EthCompilerSettings.cmake)
 
 add_subdirectory(libprogpow)
 add_subdirectory(libdevcore)
@@ -114,5 +139,5 @@ if(PROJECT_VERSION MATCHES "^([0-9]+)\\.([0-9]+)\\.([0-9]+)$")
 else()
 	set(PROJECT_VERSION_IS_PRERELEASE true)
 endif()
-configure_file(cmake/variables.sh.in variables.sh)
-configure_file(cmake/variables.ps1.in variables.ps1)
+#configure_file(cmake/variables.sh.in variables.sh)
+#configure_file(cmake/variables.ps1.in variables.ps1)
